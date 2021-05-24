@@ -50,11 +50,12 @@ public class MyMap {
         for (int i = 0; i < this.getHeight(); i++) {
             for (int j = 0; j < this.getWidth(); j++) {
                 try {
-                    System.out.printf("%-10s ", this.getTerrain(j + 1, i + 1).getName());
+                    System.out.printf("%-4s ", this.getTerrain(j + 1, i + 1).getName());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+            System.out.println();
             System.out.println();
         }
     }

@@ -1,18 +1,16 @@
 package main.java.com.thegame;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public enum Terrain {
-    GRASS ("Трава"),
-    GROUND ("Земля"),
-    LAVA ("Лава"),
-    SAND ("Песок"),
-    SNOW ("Снег"),
-    STONE ("Камни"),
-    WATER ("Вода");
+    GRASS ("\uD83C\uDF40"),
+    //GROUND ("Земля"),
+    LAVA ("\uD83D\uDD25"),
+    SAND ("\uD83C\uDFDC"),
+    SNOW ("\u2744"),
+    STONE ("\uD83D\uDDFF"),
+    WATER ("\uD83C\uDF0A");
 
     private String name;
 
