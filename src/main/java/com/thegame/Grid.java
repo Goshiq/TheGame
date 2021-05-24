@@ -1,7 +1,7 @@
 package main.java.com.thegame;
 
 public class Grid {
-    Terrain terrain;
+    protected Terrain terrain;
 
     public  Grid () {
         this.terrain = Terrain.SNOW;

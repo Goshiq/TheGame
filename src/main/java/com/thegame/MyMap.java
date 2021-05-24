@@ -7,22 +7,12 @@ public class MyMap {
         int x = 10;
         int y = 5;
         worldMap = new Grid[x][y];
-//        for (int i = 0; i < x; i++) {
-//            for (int j = 0; j < y; j++) {
-//                worldMap[i][j] = new Grid(Terrain.randomTerrain());
-                randomizeTerrain(this.getWidth(), this.getHeight(), 2, this);
-//            }
-//        }
+        randomizeTerrain(this.getWidth(), this.getHeight(), 2, this);
     }
 
     public  MyMap (int w, int h) {
         worldMap = new Grid[w][h];
-//        for (int i = 0; i < w; i++) {
-//            for (int j = 0; j < h; j++) {
-//                worldMap[i][j] = new Grid(Terrain.randomTerrain());
-                randomizeTerrain(w, h, 2, this);
-//            }
-//        }
+        randomizeTerrain(w, h, 2, this);
     }
 
     public  MyMap (int w, int h, Terrain type) {
@@ -60,7 +50,7 @@ public class MyMap {
         for (int i = 0; i < this.getHeight(); i++) {
             for (int j = 0; j < this.getWidth(); j++) {
                 try {
-                    System.out.printf("%-10s ", this.getTerrain(j + 1, i + 1));
+                    System.out.printf("%-10s ", this.getTerrain(j + 1, i + 1).getName());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
