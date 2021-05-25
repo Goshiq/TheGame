@@ -39,8 +39,6 @@ public class ProcessTheGame {
                     lookAround(map, player);
                     break;
                 case ("help"):
-                    showHelp();
-                    break;
                 case ("h"):
                     showHelp();
                     break;
@@ -74,8 +72,18 @@ public class ProcessTheGame {
     }
 
     private static void lookAround(MyMap map, Player player) {
+        int x, y;
         try {
-            map.getInfo(player.getX(), player.getY());
+            x = player.getX();
+            y = player.getY();
+            map.getInfo(x, y);
+            System.out.print("На запад: ");
+            if (x > 0) {
+                System.out.println(map.getTerrain(x - 1, y));
+            }
+            else if (x == 0) {
+                System.out.println(map.getTerrain(map.getWidth() - 1, y));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -49,24 +49,24 @@ public class MyMap {
     }
 
     public  Terrain getTerrain (int i, int j) throws Exception {
-        if (i == 0 || j == 0 || i > worldMap.length || j > worldMap[i - 1].length) {
+        if (i < 0 || j < 0 || i > worldMap.length || j > worldMap[0].length) {
             throw new Exception("Index is out of range");
         }
-        return worldMap[i - 1][j - 1].terrain;
+        return worldMap[i][j].terrain;
     }
 
     public void setTerrain (int i, int j, Terrain type) throws Exception {
-        if (i == 0 || j == 0 || i > worldMap.length || j > worldMap[i - 1].length) {
+        if (i < 0 || j < 0 || i > worldMap.length || j > worldMap[0].length) {
             throw new Exception("Index is out of range");
         }
-        worldMap[i - 1][j - 1].terrain = type;
+        worldMap[i][j].terrain = type;
     }
 
     public void printMap () {
         for (int i = 0; i < this.getHeight(); i++) {
             for (int j = 0; j < this.getWidth(); j++) {
                 try {
-                    System.out.printf("%-4s ", this.getTerrain(j + 1, i + 1).getName());
+                    System.out.printf("%-4s ", this.getTerrain(j, i).getName());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
