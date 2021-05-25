@@ -1,6 +1,5 @@
 package main.java.com.thegame;
 
-import java.util.Locale;
 import java.util.Scanner;
 
 public class ProcessTheGame {
@@ -10,8 +9,12 @@ public class ProcessTheGame {
         System.out.println("Как звать-то нашего героя? ");
         str = scanner.next();
         Player player = new Player(str);
-        System.out.println("Ну, здравствуй, " + str);
+        tellTheStory(str);
         doAction(str, map, player);
+    }
+
+    private static void tellTheStory(String str) {
+        System.out.println("Ну, здравствуй, " + str);
     }
 
     private static void doAction(String str, MyMap map, Player player) {
@@ -46,7 +49,7 @@ public class ProcessTheGame {
                     showInfo(player);
                     break;
                 case ("m"):
-                    System.out.println("Таааак, попробуем разобраться в карте...");
+                    System.out.println("Ага, а где же я на карте...");
                     map.printMap();
                     break;
                 default:
@@ -67,7 +70,7 @@ public class ProcessTheGame {
     }
 
     private static void showInfo(Player player) {
-        System.out.println(player.getName());
+        System.out.println("Мамкин бродяга: " + player.getName());
         System.out.println("Посмоооотрим, что у нас есть:");
     }
 
@@ -77,12 +80,33 @@ public class ProcessTheGame {
             x = player.getX();
             y = player.getY();
             map.getInfo(x, y);
-            System.out.print("На запад: ");
-            if (x > 0) {
-                System.out.println(map.getTerrain(x - 1, y));
+            System.out.print("На север: ");
+            if (y == 0) {
+                System.out.println(map.getTerrain(x, map.getHeight() - 1).getName());
             }
-            else if (x == 0) {
-                System.out.println(map.getTerrain(map.getWidth() - 1, y));
+            else {
+                System.out.println(map.getTerrain(x, y - 1).getName());
+            }
+            System.out.print("На запад: ");
+            if (x == 0) {
+                System.out.println(map.getTerrain(map.getWidth() - 1, y).getName());
+            }
+            else {
+                System.out.println(map.getTerrain(x - 1, y).getName());
+            }
+            System.out.print("На восток: ");
+            if (x == map.getWidth() - 1) {
+                System.out.println(map.getTerrain(0, y).getName());
+            }
+            else {
+                System.out.println(map.getTerrain(x + 1, y).getName());
+            }
+            System.out.print("На юг: ");
+            if (y == map.getHeight() - 1) {
+                System.out.println(map.getTerrain(x, 0).getName());
+            }
+            else {
+                System.out.println(map.getTerrain(x, y + 1).getName());
             }
         } catch (Exception e) {
             e.printStackTrace();

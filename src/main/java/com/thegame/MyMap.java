@@ -1,7 +1,6 @@
 package main.java.com.thegame;
 
 import java.util.LinkedList;
-import java.util.stream.Stream;
 
 public class MyMap {
     private final Grid[][] worldMap;
@@ -39,13 +38,8 @@ public class MyMap {
         LinkedList<Item> items = worldMap[x][y].getItems();
         Terrain terrain = worldMap[x][y].terrain;
 
-        System.out.println("Покрытие: " + terrain.getName());
-        for (int i = 0; i < items.size(); i++) {
-            if (i == 0) {
-                System.out.println("А ещё у нас тут есть:");
-            }
-            System.out.println(i + ": " + items.get(i).getName());
-        }
+        System.out.println("Под ногами: " + terrain.getName());
+        Item.showItems(items);
     }
 
     public  Terrain getTerrain (int i, int j) throws Exception {

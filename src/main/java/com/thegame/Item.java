@@ -1,6 +1,7 @@
 package main.java.com.thegame;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class Item {
@@ -33,5 +34,11 @@ public class Item {
 
     public void addRecipe(Item obj, Item result) {
         recipes.put(obj, result);
+    }
+
+    public static void  showItems(LinkedList<Item> items) {
+        for (int i = 0; i < items.size(); i++) {
+            System.out.println(i + ": " + items.get(i).getName());
+        }
     }
 }

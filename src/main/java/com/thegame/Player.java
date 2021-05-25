@@ -4,8 +4,8 @@ import java.util.LinkedList;
 
 public class Player {
     private String  name = "";
-    private int x = 1;
-    private int y = 1;
+    private int x = 0;
+    private int y = 0;
     private int health = 100;
     private double  capacity = 50D;
     private LinkedList<Item> inventory = new LinkedList<>();
@@ -56,5 +56,9 @@ public class Player {
 
     public void setInventory(LinkedList<Item> inventory) {
         this.inventory = inventory;
+    }
+
+    public void addItem(Item item) {
+        inventory.add(item);
     }
 }
