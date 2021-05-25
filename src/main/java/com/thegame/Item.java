@@ -31,7 +31,7 @@ public class Item {
         return description;
     }
 
-    public void addRecipe(Item obj, Item subj) {
-        recipes.put(obj, subj);
+    public void addRecipe(Item obj, Item result) {
+        recipes.put(obj, result);
     }
 }

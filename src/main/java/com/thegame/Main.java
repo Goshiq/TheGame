@@ -4,10 +4,15 @@ public class Main {
     public static void main(String[] args) throws Exception {
         try {
             MyMap   map = new MyMap();
+            initMap(map);
             ProcessTheGame.start(map);
         }
         catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    private static void    initMap(MyMap map) {
+
     }
 }
