@@ -32,12 +32,17 @@ public class Main {
 
         // Заполняем рецепты
         knife.addRecipe(rock, sharpKnife);
+        rock.addRecipe(knife, sharpKnife);
         cup.addRecipe(snow, cupOfSnow);
+        snow.addRecipe(cup, cupOfSnow);
         pot.addRecipe(snow, potOfSnow);
+        snow.addRecipe(pot, potOfSnow);
         potOfHotWater.addRecipe(fish, fishSoup);
+        fish.addRecipe(potOfHotWater, fishSoup);
 
         map.setTerrain(0, 0, Terrain.GRASS);
         map.addItem(0, 0, boots);
         map.addItem(0,0, knife);
+        map.addItem(0,0, rock);
     }
 }

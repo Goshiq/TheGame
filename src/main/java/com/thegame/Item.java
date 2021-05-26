@@ -44,4 +44,21 @@ public class Item {
     public static void addItem(Item item) {
         itemList.add(item);
     }
+
+    public Item useItem(LinkedList<Item> inventory) {
+        int count = 0;
+
+        for (int i = 0; i < inventory.size(); i++) {
+            if (recipes.get(inventory.get(i)) != null) {
+                if (count == 0) {
+                    System.out.println("Можно использовать с: ");
+                }
+                System.out.println(count++ + 1 + " " + inventory.get(i).getName());
+            };
+        }
+        if (count == 0) {
+            System.out.println("У тебя нет ничего, с чем это можно было бы использовать...");
+        }
+        return null;
+    }
 }
