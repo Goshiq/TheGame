@@ -16,6 +16,9 @@ public class ProcessTheGame {
 
     private static void tellTheStory(String str) {
         System.out.println("Ну, здравствуй, " + str);
+        System.out.println("Очнулся ты среди поля, как тут оказался- одним божьим коровкам известно");
+        System.out.println("Нужно что-то делать... Но большой вопрос: Что? И не менее большой: Зачем?");
+        showHelp();
     }
 
     private static void doAction(String str, MyMap map, Player player) {
@@ -23,56 +26,88 @@ public class ProcessTheGame {
         while (true) {
             System.out.print("Введите действие: ");
             str = scanner.next();
-            if (str.length() == 1 && (str.charAt(0) >= '0' && str.charAt(0) <= '9') {
-                checkAction(str.charAt(0) + 48, map.getItems(player.getX(), player.getY()));
+            if (str.length() == 1 && (str.charAt(0) >= '0' && str.charAt(0) <= '9')) {
+                checkAction(str.charAt(0) - 48, player, map);
+                player.setDialogStatement(DialogStatement.MAIN);
             }
-            switch (str.toLowerCase()) {
-                case ("exit"):
-                    System.out.println("До свидания!");
-                    return;
-                case ("w"):
-                    System.out.println("Идём на север");
-                    player.moveUp(map.getHeight());
-                    break;
-                case ("a"):
-                    System.out.println("Идём на запад");
-                    player.moveLeft(map.getWidth());
-                    break;
-                case ("s"):
-                    System.out.println("Идём на юг");
-                    player.moveDown(map.getHeight());
-                    break;
-                case ("d"):
-                    System.out.println("Идём на восток");
-                    player.moveRight(map.getWidth());
-                    break;
-                case ("?"):
-                    lookAround(map, player);
-                    break;
-                case ("help"):
-                case ("h"):
-                    showHelp();
-                    break;
-                case ("i"):
-                    showInfo(player);
-                    break;
-                case ("m"):
-                    System.out.println("Ага-а-а, а где же я на карте...");
-                    map.printMap();
-                    break;
-                default:
-                    System.out.println("Что-то непонятное...");
-                    break;
+            else {
+                switch (str.toLowerCase()) {
+                    case ("exit") -> {
+                        System.out.println("До свидания!");
+                        return;
+                    }
+                    case ("w") -> {
+                        System.out.println("Идём на север");
+                        player.moveUp(map.getHeight());
+                    }
+                    case ("a") -> {
+                        System.out.println("Идём на запад");
+                        player.moveLeft(map.getWidth());
+                    }
+                    case ("s") -> {
+                        System.out.println("Идём на юг");
+                        player.moveDown(map.getHeight());
+                    }
+                    case ("d") -> {
+                        System.out.println("Идём на восток");
+                        player.moveRight(map.getWidth());
+                    }
+                    case ("?") -> lookAround(map, player);
+                    case ("help"), ("h") -> showHelp();
+                    case ("i") -> showInfo(player);
+                    case ("m") -> {
+                        System.out.println("Ага-а-а, а где же я на карте...");
+                        map.printMap();
+                    }
+                    default -> System.out.println("Что-то непонятное...");
+                }
             }
         }
     }
 
-    private static void checkAction(int i, LinkedList<Item> items) {
-        if (i > items.size()) {
-            System.out.println("Что-то непонятное...");
+    private static void checkAction(int i, Player player, MyMap map) {
+        LinkedList<Item> items = map.getItems(player.getX(), player.getY());
+        if (player.getDialogStatement() == DialogStatement.MAIN) {
+            if (i > items.size()) {
+                System.out.println("Ты откуда это взял?..");
+            }
+            else {
+                System.out.print(items.get(i - 1).getName() + ": ");
+                System.out.println(items.get(i - 1).getDescription());
+                System.out.println("1: Взять с собой");
+                System.out.print("Введите действие: ");
+                Scanner scanner = new Scanner(System.in);
+                String str = scanner.next();
+                switch (str.toLowerCase()) {
+                    case ("1") -> {
+                        System.out.println("Предмет добавлен в инвентарь. И ведь это всё на себе тащить...");
+                        player.addItem(items.get(i - 1));
+                        items.remove(i - 1);
+                    }
+                    case ("exit") -> System.exit(0);
+                    default -> System.out.println("Нужно было выбрать же........................");
+                }
+            }
         }
-        else {
-            items.get(i).getDescription();
+        else if (i <= player.getInventory().size()) {
+            System.out.println("1: Осмотреть");
+            System.out.println("2: Выбросить");
+            System.out.print("Введите действие: ");
+            Scanner scanner = new Scanner(System.in);
+            String str = scanner.next();
+            switch (str) {
+                case ("1") -> {
+                    System.out.println(player.getInventory().get(i - 1).getDescription());
+                }
+                case ("2") -> {
+                    System.out.println("Как гора с плеч!");
+                    items.add(player.getInventory().get(i - 1));
+                    player.getInventory().remove(i - 1);
+                }
+                case ("exit") -> System.exit(0);
+                default -> System.out.println("Нужно было выбрать же........................");
+            }
+            player.setDialogStatement(DialogStatement.MAIN);
         }
     }
 
@@ -83,12 +118,22 @@ public class ProcessTheGame {
         System.out.println("h: помощь (то, что видишь сейчас)");
         System.out.println("i: информация о персонаже");
         System.out.println("m: карта");
+        System.out.println("?: осмотреться вокруг");
         System.out.println("exit: выход из игры");
     }
 
     private static void showInfo(Player player) {
+        player.setDialogStatement(DialogStatement.INVENTORY);
         System.out.println("Мамкин бродяга: " + player.getName());
-        System.out.println("Посмоооотрим, что у нас есть:");
+        if (player.getInventory().size() == 0) {
+            System.out.println("Гол как сокол");
+        }
+        else {
+            if (player.getInventory().size() > 0) {
+                System.out.println("Посмоооотрим, что у нас есть:");
+                Item.showItems(player.getInventory());
+            }
+        }
     }
 
     private static void lookAround(MyMap map, Player player) {

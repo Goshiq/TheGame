@@ -39,6 +39,9 @@ public class MyMap {
         Terrain terrain = worldMap[x][y].terrain;
 
         System.out.println("Под ногами: " + terrain.getName());
+        if (items.size() > 0) {
+            System.out.println("Да тут что-то есть!");
+        }
         Item.showItems(items);
     }
 

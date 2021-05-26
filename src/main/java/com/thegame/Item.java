@@ -8,6 +8,7 @@ public class Item {
     private String  name;
     private String	description;
     private final Map<Item, Item> recipes = new HashMap<>();
+    private static LinkedList<Item> itemList = new LinkedList<>();
 
     public Item(String name) {
         this.name = name;
@@ -15,11 +16,6 @@ public class Item {
     }
 
     public Item(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public Item(String name, String description, Boolean usable) {
         this.name = name;
         this.description = description;
     }
@@ -38,13 +34,14 @@ public class Item {
 
     public static void  showItems(LinkedList<Item> items) {
         for (int i = 0; i < items.size(); i++) {
-            if (i == 0) {
-                System.out.println("О, да тут что-то есть: ");
-            }
             System.out.println(i + 1 + ": " + items.get(i).getName());
         }
         if (items.size() > 0) {
             System.out.println();
         }
+    }
+
+    public static void addItem(Item item) {
+        itemList.add(item);
     }
 }

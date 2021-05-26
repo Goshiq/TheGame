@@ -8,6 +8,7 @@ public class Player {
     private int y = 0;
     private int health = 100;
     private double  capacity = 50D;
+    private DialogStatement dialogStatement = DialogStatement.MAIN;
     private LinkedList<Item> inventory = new LinkedList<>();
 
     public Player(String name) {
@@ -92,5 +93,13 @@ public class Player {
         }
         else
             x--;
+    }
+
+    public void setDialogStatement(DialogStatement newState) {
+        dialogStatement = newState;
+    }
+
+    public DialogStatement getDialogStatement() {
+        return dialogStatement;
     }
 }
