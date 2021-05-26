@@ -1,5 +1,6 @@
 package main.java.com.thegame;
 
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class ProcessTheGame {
@@ -22,21 +23,28 @@ public class ProcessTheGame {
         while (true) {
             System.out.print("Введите действие: ");
             str = scanner.next();
+            if (str.length() == 1 && (str.charAt(0) >= '0' && str.charAt(0) <= '9') {
+                checkAction(str.charAt(0) + 48, map.getItems(player.getX(), player.getY()));
+            }
             switch (str.toLowerCase()) {
                 case ("exit"):
                     System.out.println("До свидания!");
                     return;
                 case ("w"):
                     System.out.println("Идём на север");
+                    player.moveUp(map.getHeight());
                     break;
                 case ("a"):
                     System.out.println("Идём на запад");
+                    player.moveLeft(map.getWidth());
                     break;
                 case ("s"):
                     System.out.println("Идём на юг");
+                    player.moveDown(map.getHeight());
                     break;
                 case ("d"):
                     System.out.println("Идём на восток");
+                    player.moveRight(map.getWidth());
                     break;
                 case ("?"):
                     lookAround(map, player);
@@ -49,13 +57,22 @@ public class ProcessTheGame {
                     showInfo(player);
                     break;
                 case ("m"):
-                    System.out.println("Ага, а где же я на карте...");
+                    System.out.println("Ага-а-а, а где же я на карте...");
                     map.printMap();
                     break;
                 default:
                     System.out.println("Что-то непонятное...");
                     break;
             }
+        }
+    }
+
+    private static void checkAction(int i, LinkedList<Item> items) {
+        if (i > items.size()) {
+            System.out.println("Что-то непонятное...");
+        }
+        else {
+            items.get(i).getDescription();
         }
     }
 

@@ -61,4 +61,36 @@ public class Player {
     public void addItem(Item item) {
         inventory.add(item);
     }
+
+    public void moveUp(int mapHeight) {
+        if (y == 0) {
+            y = mapHeight - 1;
+        }
+        else
+            y--;
+    }
+
+    public void moveDown (int mapHeight) {
+        if (y == mapHeight - 1) {
+            y = 0;
+        }
+        else
+            y++;
+    }
+
+    public void moveRight (int mapWidth) {
+        if (x == mapWidth - 1) {
+            x = 0;
+        }
+        else
+            x++;
+    }
+
+    public void moveLeft(int mapWidth) {
+        if (x == 0) {
+            x = mapWidth - 1;
+        }
+        else
+            x--;
+    }
 }

@@ -9,17 +9,17 @@ public class Item {
     private String	description;
     private final Map<Item, Item> recipes = new HashMap<>();
 
-    public void Item(String name) {
+    public Item(String name) {
         this.name = name;
         this.description = "";
     }
 
-    public void Item(String name, String description) {
+    public Item(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public void Item(String name, String description, Boolean usable) {
+    public Item(String name, String description, Boolean usable) {
         this.name = name;
         this.description = description;
     }
@@ -38,7 +38,13 @@ public class Item {
 
     public static void  showItems(LinkedList<Item> items) {
         for (int i = 0; i < items.size(); i++) {
-            System.out.println(i + ": " + items.get(i).getName());
+            if (i == 0) {
+                System.out.println("О, да тут что-то есть: ");
+            }
+            System.out.println(i + 1 + ": " + items.get(i).getName());
+        }
+        if (items.size() > 0) {
+            System.out.println();
         }
     }
 }

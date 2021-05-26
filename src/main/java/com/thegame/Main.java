@@ -14,6 +14,6 @@ public class Main {
 
     private static void    initMap(MyMap map) throws Exception {
         map.setTerrain(0, 0, Terrain.GRASS);
-
+        map.addItem(0, 0, new Item("Сапоги", "Почти как берцы, только не берцы"));
     }
 }

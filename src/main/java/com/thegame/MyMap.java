@@ -97,4 +97,12 @@ public class MyMap {
             }
         }
     }
+
+    public void addItem(int i, int i1, Item item) {
+        worldMap[i][i1].addItem(item);
+    }
+
+    public LinkedList<Item> getItems (int x, int y) {
+        return worldMap[x][y].getItems();
+    }
 }
