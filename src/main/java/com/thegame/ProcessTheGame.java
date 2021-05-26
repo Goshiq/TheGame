@@ -1,6 +1,8 @@
 package main.java.com.thegame;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ProcessTheGame {
@@ -119,8 +121,11 @@ public class ProcessTheGame {
                     player.getInventory().remove(i - 1);
                 }
                 case ("3") -> {
-                    player.setDialogStatement(DialogStatement.USING);
-                    Item newItem = player.getInventory().get(i - 1).useItem(player.getInventory());
+                    Map<String, String> pairs;
+                    pairs = player.getInventory().get(i - 1).useItem(player.getInventory());
+                    if (pairs != null && pairs.size() > 0) {
+                        player.setDialogStatement(DialogStatement.USING);
+                    }
                 }
                 case ("exit") -> System.exit(0);
                 //default -> System.out.println("Нужно было выбрать же........................");

@@ -45,7 +45,8 @@ public class Item {
         itemList.add(item);
     }
 
-    public Item useItem(LinkedList<Item> inventory) {
+    public HashMap<String, String> useItem(LinkedList<Item> inventory) {
+        Map<String, String> answer= new HashMap<>();
         int count = 0;
 
         for (int i = 0; i < inventory.size(); i++) {
