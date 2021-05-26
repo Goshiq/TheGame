@@ -119,6 +119,7 @@ public class ProcessTheGame {
                     player.getInventory().remove(i - 1);
                 }
                 case ("3") -> {
+                    player.setDialogStatement(DialogStatement.USING);
                     Item newItem = player.getInventory().get(i - 1).useItem(player.getInventory());
                 }
                 case ("exit") -> System.exit(0);
