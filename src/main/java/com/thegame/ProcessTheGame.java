@@ -109,6 +109,8 @@ public class ProcessTheGame {
             }
             player.setDialogStatement(DialogStatement.MAIN);
         }
+        else
+            System.out.println("Эм?...");
     }
 
     private static void showHelp() {
