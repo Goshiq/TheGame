@@ -9,8 +9,8 @@ public class Player {
     private int health = 100;
     private double  capacity = 50D;
     private DialogStatement dialogStatement = DialogStatement.MAIN;
-    private LinkedList<Item> inventory = new LinkedList<>();
-    private Item currentItem = null;
+    private LinkedList<String> inventory = new LinkedList<>();
+    private String currentItem = null;
 
     public Player(String name) {
         this.name = name;
@@ -52,18 +52,18 @@ public class Player {
         this.capacity = capacity;
     }
 
-    public LinkedList<Item> getInventory() {
+    public LinkedList<String> getInventory() {
         return inventory;
     }
 
-    public void setInventory(LinkedList<Item> inventory) {
+    public void setInventory(LinkedList<String> inventory) {
         this.inventory = inventory;
     }
 
-    public void addItem(Item item) {
-        if (inventory.stream().filter(el -> el.getName().compareTo(item.getName()) == 0).findAny().isEmpty()) {
+    public void addItem(String item) {
+        if (inventory.stream().filter(el -> el.compareTo(item) == 0).findAny().isEmpty()) {
             inventory.add(item);
-            System.out.println("Предмет добавлен в инвентарь. И ведь это всё на себе тащить...");
+            System.out.println(item + " теперь в инвентаре. И ведь это всё на себе тащить...");
         }
         else
             System.out.println("Куда тебе ещё-то?");
@@ -109,11 +109,11 @@ public class Player {
         return dialogStatement;
     }
 
-    public Item getCurrentItem() {
+    public String getCurrentItem() {
         return currentItem;
     }
 
-    public void setCurrentItem(Item item) {
+    public void setCurrentItem(String item) {
         currentItem = item;
     }
 }

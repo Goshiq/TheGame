@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class Grid {
     protected Terrain terrain;
-    private LinkedList<Item> items = new LinkedList<>();
+    private LinkedList<String> items = new LinkedList<>();
 
     public  Grid () {
         this.terrain = Terrain.SNOW;
@@ -14,20 +14,20 @@ public class Grid {
         this.terrain = type;
     }
 
-    public void addItem(Item item) {
-        if (items.stream().filter(el -> el.getName().compareTo(item.getName()) == 0).findAny().isEmpty()) {
+    public void addItem(String item) {
+        if (items.stream().filter(el -> el.compareTo(item) == 0).findAny().isEmpty()) {
             this.items.add(item);
         }
     }
 
-    public LinkedList<Item> getItems() {
+    public LinkedList<String> getItems() {
         switch (terrain) {
             //cast GRASS -> this.addItem(new Item("Травка", "Не та, о которой ты подумал", true));
-            case LAVA -> this.addItem(new Item("Огонь", "Пахнет жареным", true));
-            case SAND -> this.addItem(new Item("Песок", "Видимо, бабуля здесь часто бывала", true));
-            case SNOW -> this.addItem(new Item("Снег", "Не жёлтый", true));
-            case STONE -> this.addItem(new Item("Камень", "Похож на камень", true));
-            case WATER -> this.addItem(new Item("Вода", "Мокрая", true));
+            case LAVA -> this.addItem("Огонь");
+            case SAND -> this.addItem("Песок");
+            case SNOW -> this.addItem("Снег");
+            case STONE -> this.addItem("Камень");
+            case WATER -> this.addItem("Вода");
         }
         return items;
     }

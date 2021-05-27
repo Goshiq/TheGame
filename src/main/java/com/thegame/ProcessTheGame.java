@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class ProcessTheGame {
-    static LinkedList<Item> pairs;
+    static LinkedList<String> pairs;
 
     public static void start(MyMap map) {
         Scanner scanner = new Scanner(System.in);
@@ -81,14 +81,14 @@ public class ProcessTheGame {
     }
 
     private static void checkAction(int i, Player player, MyMap map) {
-        LinkedList<Item>    items = map.getItems(player.getX(), player.getY());
+        LinkedList<String>    items = map.getItems(player.getX(), player.getY());
 
         if (player.getDialogStatement() == DialogStatement.LOOKAROUND) {
             if (i > items.size()) {
                 System.out.println("Ты откуда это взял?..");
             } else {
-                System.out.print(items.get(i - 1).getName() + ": ");
-                System.out.println(items.get(i - 1).getDescription());
+                System.out.print(items.get(i - 1) + ": ");
+                System.out.println(Item.findDescription(items.get(i - 1)));
                 System.out.println("1: Взять с собой");
                 System.out.println("Любая клавиша: Отмена");
                 System.out.print("Введите действие: ");
@@ -97,7 +97,7 @@ public class ProcessTheGame {
                 switch (str.toLowerCase()) {
                     case ("1") -> {
                         player.addItem(items.get(i - 1));
-                        if (!items.get(i - 1).getALot())
+                        if (!Item.getALot(items.get(i - 1)))
                             items.remove(i - 1);
                     }
                     case ("exit") -> System.exit(0);
@@ -114,7 +114,7 @@ public class ProcessTheGame {
             String str = scanner.next();
             switch (str) {
                 case ("1") -> {
-                    System.out.println(player.getInventory().get(i - 1).getDescription());
+                    System.out.println(Item.findDescription(player.getInventory().get(i - 1)));
                 }
                 case ("2") -> {
                     System.out.println("Как гора с плеч!");
@@ -122,7 +122,7 @@ public class ProcessTheGame {
                     player.getInventory().remove(i - 1);
                 }
                 case ("3") -> {
-                    pairs = player.getInventory().get(i - 1).getPairs(player.getInventory());
+                    pairs = Item.getPairs(player.getInventory().get(i - 1), player.getInventory());
                     if (pairs != null) {
                         int count = 0;
                         if (count++ == 0)
@@ -135,7 +135,8 @@ public class ProcessTheGame {
                 case ("exit") -> System.exit(0);
             }
         } else if (player.getDialogStatement() == DialogStatement.USING) {
-            Item    result = player.getCurrentItem().getResult(player.getCurrentItem(), pairs.get(i - 1));
+            String  result = Item.getResult(player.getCurrentItem(), pairs.get(i - 1));
+            //String    result = player.getResult(player.getCurrentItem(), pairs.get(i - 1));
             player.addItem(result);
             player.getInventory().remove(pairs.get(i - 1));
             player.getInventory().remove(player.getCurrentItem());

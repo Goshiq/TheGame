@@ -3,11 +3,12 @@ package main.java.com.thegame;
 import java.util.*;
 
 public class Item {
-    private String  name;
-    private String	description;
-    private boolean aLot = false;
-    private static Map<Map<Item, Item>, Item> recipes = new HashMap<>();
+    private String name;
+    private String description;
+    public boolean aLot = false;
+    private static Map<Map<String, String>, String> recipes = new HashMap<>();
     private static LinkedList<Item> itemList = new LinkedList<>();
+    private Item item;
 
     public Item(String name) {
         this.name = name;
@@ -31,27 +32,43 @@ public class Item {
         aLot = toAdd.aLot;
     }
 
+    public static boolean getALot(String str) {
+        Item item;
+        item = itemList.stream().filter(el -> el.getName().compareTo(str) == 0).findFirst().orElse(null);
+        if (item != null)
+            return item.aLot;
+        return false;
+    }
+
     public String getName() {
         return name;
     }
 
-    public String getDescription() {
+    private String getDescription() {
         return description;
     }
 
-    public void addRecipe(Item item1, Item item2, Item item3) {
-        Map<Item, Item> toAdd = new HashMap<>();
-        Map<Item, Item> toAdd2 = new HashMap<>();
-
-        toAdd.put(item1, item2);
-        recipes.put(toAdd, item3);
-        toAdd2.put(item2, item1);
-        recipes.put(toAdd2, item3);
+    public static String findDescription(String str) {
+        Item item;
+        item = itemList.stream().filter(el -> el.getName().compareTo(str) == 0).findFirst().orElse(null);
+        if (item != null)
+            return item.getDescription();
+        return null;
     }
 
-    public static void  showItems(LinkedList<Item> items) {
+    public static void addRecipe(String item1, String item2, Item item3) {
+        Map<String, String> toAdd = new HashMap<>();
+        Map<String, String> toAdd2 = new HashMap<>();
+
+        toAdd.put(item1, item2);
+        recipes.put(toAdd, item3.getName());
+        toAdd2.put(item2, item1);
+        recipes.put(toAdd2, item3.getName());
+    }
+
+    public static void showItems(LinkedList<String> items) {
         for (int i = 0; i < items.size(); i++) {
-            System.out.println(i + 1 + ": " + items.get(i).getName());
+            System.out.println(i + 1 + ": " + items.get(i));
         }
         if (items.size() > 0) {
             System.out.println();
@@ -62,17 +79,17 @@ public class Item {
         itemList.add(item);
     }
 
-    public LinkedList<Item> getPairs(LinkedList<Item> inventory) {
-        LinkedList<Item> answer= new LinkedList<>();
+    public static LinkedList<String> getPairs(String str, LinkedList<String> inventory) {
+        LinkedList<String> answer = new LinkedList<>();
         int count = 0;
 
-        for (Item item : inventory) {
-            if (item.equals(this))
+        for (String item : inventory) {
+            if (item.equals(str))
                 continue;
-            Item toAdd = this.checkItem(item);
+            String toAdd = Item.checkItem(str, item);
             if (toAdd != null) {
                 count++;
-                answer.add(toAdd);
+                answer.add(item);
             }
         }
         if (count == 0) {
@@ -81,27 +98,18 @@ public class Item {
         return answer;
     }
 
-    public Item getResult(Item item, Item item2) {
-        Map<Item, Item> result;
+    public static String getResult(String item, String item2) {
+        Map<String, String> result;
         result = new HashMap<>();
         result.put(item, item2);
-        System.out.println("Опа, получился " + recipes.get(result).getName());
+        System.out.println("Опа, получился " + recipes.get(result));
         return recipes.get(result);
     }
 
-    private Item checkItem(Item item) {
-        for (Map.Entry entry : recipes.entrySet()) {
-            Map<Item, Item> keys = (Map<Item, Item>) entry.getKey();
-            //if (keys.get(this) != null)
-            //    return keys.get(this);
-            for (Map.Entry entry1 : keys.entrySet()) {
-                Item    tmp = (Item) entry1.getKey();
-                if (tmp.equals(this)) {
-                    return (Item) entry1.getValue();
-                }
-            }
-        }
-        return null;
+    private static String checkItem(String item1, String item2) {
+        Map<String, String> key = new HashMap<>();
+        key.put(item1, item2);
+        return recipes.get(key);
     }
 
     public boolean getALot() {

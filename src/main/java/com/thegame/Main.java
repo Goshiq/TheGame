@@ -33,11 +33,33 @@ public class Main {
         Item    fish = new Item("Рыба", "Молчит");
         Item    fishSoup = new Item("Рыбный суп", "Ухой назвать язык не поворачивается");
 
+        Item.addItem(new Item("Огонь", "Пахнет жареным", true));
+        Item.addItem(new Item("Песок", "Видимо, бабуля здесь часто бывала", true));
+        Item.addItem(new Item("Снег", "Не жёлтый", true));
+        Item.addItem(new Item("Камень", "Похож на камень", true));
+        Item.addItem(new Item("Вода", "Мокрая", true));
+
+        Item.addItem(boots);
+        Item.addItem(knife);
+        Item.addItem(rock);
+        Item.addItem(sharpKnife);
+        Item.addItem(cup);
+        Item.addItem(cupOfColdWater);
+        Item.addItem(cupOfSnow);
+        Item.addItem(cupOfHotWater);
+        Item.addItem(pot);
+        Item.addItem(potOfColdWater);
+        Item.addItem(potOfHotWater);
+        Item.addItem(potOfSnow);
+        Item.addItem(fish);
+        Item.addItem(fishSoup);
+        Item.addItem(snow);
+
         // Заполняем рецепты
-        knife.addRecipe(rock, knife, sharpKnife);
-        cup.addRecipe(snow, cup, cupOfSnow);
-        pot.addRecipe(snow, pot, potOfSnow);
-        fish.addRecipe(potOfHotWater, fish, fishSoup);
+        Item.addRecipe(rock.getName(), knife.getName(), sharpKnife);
+        Item.addRecipe(snow.getName(), cup.getName(), cupOfSnow);
+        Item.addRecipe(snow.getName(), pot.getName(), potOfSnow);
+        Item.addRecipe(potOfHotWater.getName(), fish.getName(), fishSoup);
 
         //пусть стартовая локация будет с травкой
         map.setTerrain(0, 0, Terrain.GRASS);

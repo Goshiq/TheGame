@@ -35,7 +35,7 @@ public class MyMap {
     }
 
     public void getInfo(int x, int y) {
-        LinkedList<Item> items = worldMap[x][y].getItems();
+        LinkedList<String> items = worldMap[x][y].getItems();
         Terrain terrain = worldMap[x][y].terrain;
 
         System.out.println("Под ногами: " + terrain.getName());
@@ -102,10 +102,10 @@ public class MyMap {
     }
 
     public void addItem(int i, int i1, Item item) {
-        worldMap[i][i1].addItem(item);
+        worldMap[i][i1].addItem(item.getName());
     }
 
-    public LinkedList<Item> getItems (int x, int y) {
+    public LinkedList<String> getItems (int x, int y) {
         return worldMap[x][y].getItems();
     }
 }
