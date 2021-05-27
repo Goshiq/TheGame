@@ -1,5 +1,8 @@
 package main.java.com.thegame;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Main {
     public static void main(String[] args) throws Exception {
         try {
@@ -16,7 +19,7 @@ public class Main {
         //Создаём все предметы, возможные в игре
         Item    boots = new Item("Сапоги", "Почти как берцы, только не берцы");
         Item    knife = new Item("Нож", "Тупой, как твой сосед по парте. Но помни: ч. 2 ст. 20.8 КоАП РФ, штраф от 500 до 2000 руб.");
-        Item    rock = new Item("Камень", "Похож на камень");
+        Item    rock = new Item("Камень", "Похож на камень", true);
         Item    sharpKnife = new Item("Острый нож", "Ай!");
         Item    cup = new Item("Кружка", "Металлическая, ей убить можно");
         Item    cupOfColdWater = new Item("Кружка воды", "Даже никто не плавает");
@@ -31,18 +34,16 @@ public class Main {
         Item    fishSoup = new Item("Рыбный суп", "Ухой назвать язык не поворачивается");
 
         // Заполняем рецепты
-        knife.addRecipe(rock, sharpKnife);
-        rock.addRecipe(knife, sharpKnife);
-        cup.addRecipe(snow, cupOfSnow);
-        snow.addRecipe(cup, cupOfSnow);
-        pot.addRecipe(snow, potOfSnow);
-        snow.addRecipe(pot, potOfSnow);
-        potOfHotWater.addRecipe(fish, fishSoup);
-        fish.addRecipe(potOfHotWater, fishSoup);
+        knife.addRecipe(rock, knife, sharpKnife);
+        cup.addRecipe(snow, cup, cupOfSnow);
+        pot.addRecipe(snow, pot, potOfSnow);
+        fish.addRecipe(potOfHotWater, fish, fishSoup);
 
+        //пусть стартовая локация будет с травкой
         map.setTerrain(0, 0, Terrain.GRASS);
+
+        //чтобы не было пусто
         map.addItem(0, 0, boots);
         map.addItem(0,0, knife);
-        map.addItem(0,0, rock);
     }
 }

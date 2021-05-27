@@ -1,11 +1,11 @@
 package main.java.com.thegame;
 
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Scanner;
 
 public class ProcessTheGame {
+    static LinkedList<Item> pairs;
+
     public static void start(MyMap map) {
         Scanner scanner = new Scanner(System.in);
         String str;
@@ -25,14 +25,13 @@ public class ProcessTheGame {
 
     private static void doAction(String str, MyMap map, Player player) {
         Scanner scanner = new Scanner(System.in);
+
         while (true) {
             System.out.print("Введите действие: ");
             str = scanner.next();
-            if (str.length() == 1 && (str.charAt(0) >= '0' && str.charAt(0) <= '9')) {
+            if (player.getDialogStatement() != DialogStatement.MAIN && str.length() == 1 && (str.charAt(0) >= '0' && str.charAt(0) <= '9')) {
                 checkAction(str.charAt(0) - 48, player, map);
-                player.setDialogStatement(DialogStatement.MAIN);
-            }
-            else {
+            } else {
                 switch (str.toLowerCase()) {
                     case ("exit") -> {
                         System.out.println("До свидания!");
@@ -59,8 +58,8 @@ public class ProcessTheGame {
                         player.setDialogStatement(DialogStatement.MAIN);
                     }
                     case ("?") -> {
+                        player.setDialogStatement(DialogStatement.LOOKAROUND);
                         lookAround(map, player);
-                        player.setDialogStatement(DialogStatement.MAIN);
                     }
                     case ("help"), ("h") -> {
                         showHelp();
@@ -72,19 +71,22 @@ public class ProcessTheGame {
                         map.printMap();
                         player.setDialogStatement(DialogStatement.MAIN);
                     }
-                    default -> System.out.println("Что-то непонятное...");
+                    default -> {
+                        System.out.println("Что-то непонятное...");
+                        player.setDialogStatement(DialogStatement.MAIN);
+                    }
                 }
             }
         }
     }
 
     private static void checkAction(int i, Player player, MyMap map) {
-        LinkedList<Item> items = map.getItems(player.getX(), player.getY());
-        if (player.getDialogStatement() == DialogStatement.MAIN) {
+        LinkedList<Item>    items = map.getItems(player.getX(), player.getY());
+
+        if (player.getDialogStatement() == DialogStatement.LOOKAROUND) {
             if (i > items.size()) {
                 System.out.println("Ты откуда это взял?..");
-            }
-            else {
+            } else {
                 System.out.print(items.get(i - 1).getName() + ": ");
                 System.out.println(items.get(i - 1).getDescription());
                 System.out.println("1: Взять с собой");
@@ -94,16 +96,15 @@ public class ProcessTheGame {
                 String str = scanner.next();
                 switch (str.toLowerCase()) {
                     case ("1") -> {
-                        System.out.println("Предмет добавлен в инвентарь. И ведь это всё на себе тащить...");
                         player.addItem(items.get(i - 1));
-                        items.remove(i - 1);
+                        if (!items.get(i - 1).getALot())
+                            items.remove(i - 1);
                     }
                     case ("exit") -> System.exit(0);
-                    //default -> System.out.println("Нужно было выбрать же........................");
                 }
             }
-        }
-        else if (player.getDialogStatement() == DialogStatement.INVENTORY && i <= player.getInventory().size()) {
+        } else if (player.getDialogStatement() == DialogStatement.INVENTORY && i <= player.getInventory().size()) {
+            player.setCurrentItem(player.getInventory().get(i - 1));
             System.out.println("1: Осмотреть");
             System.out.println("2: Выбросить");
             System.out.println("3: Использовать");
@@ -121,16 +122,23 @@ public class ProcessTheGame {
                     player.getInventory().remove(i - 1);
                 }
                 case ("3") -> {
-                    Map<String, String> pairs;
-                    pairs = player.getInventory().get(i - 1).useItem(player.getInventory());
-                    if (pairs != null && pairs.size() > 0) {
+                    pairs = player.getInventory().get(i - 1).getPairs(player.getInventory());
+                    if (pairs != null) {
+                        int count = 0;
+                        if (count++ == 0)
+                            System.out.println("Можно использовать с: ");
                         player.setDialogStatement(DialogStatement.USING);
-                    }
+                        Item.showItems(pairs);
+                    } else
+                        System.out.println("Не с чем использовать");
                 }
                 case ("exit") -> System.exit(0);
-                //default -> System.out.println("Нужно было выбрать же........................");
             }
-            player.setDialogStatement(DialogStatement.MAIN);
+        } else if (player.getDialogStatement() == DialogStatement.USING) {
+            Item    result = player.getCurrentItem().getResult(player.getCurrentItem(), pairs.get(i - 1));
+            player.addItem(result);
+            player.getInventory().remove(pairs.get(i - 1));
+            player.getInventory().remove(player.getCurrentItem());
         }
         else
             System.out.println("Эм?...");
@@ -152,8 +160,7 @@ public class ProcessTheGame {
         System.out.println("Мамкин бродяга: " + player.getName());
         if (player.getInventory().size() == 0) {
             System.out.println("Гол как сокол");
-        }
-        else {
+        } else {
             if (player.getInventory().size() > 0) {
                 System.out.println("Посмоооотрим, что у нас есть:");
                 Item.showItems(player.getInventory());
@@ -170,29 +177,25 @@ public class ProcessTheGame {
             System.out.print("На север: ");
             if (y == 0) {
                 System.out.println(map.getTerrain(x, map.getHeight() - 1).getName());
-            }
-            else {
+            } else {
                 System.out.println(map.getTerrain(x, y - 1).getName());
             }
             System.out.print("На запад: ");
             if (x == 0) {
                 System.out.println(map.getTerrain(map.getWidth() - 1, y).getName());
-            }
-            else {
+            } else {
                 System.out.println(map.getTerrain(x - 1, y).getName());
             }
             System.out.print("На восток: ");
             if (x == map.getWidth() - 1) {
                 System.out.println(map.getTerrain(0, y).getName());
-            }
-            else {
+            } else {
                 System.out.println(map.getTerrain(x + 1, y).getName());
             }
             System.out.print("На юг: ");
             if (y == map.getHeight() - 1) {
                 System.out.println(map.getTerrain(x, 0).getName());
-            }
-            else {
+            } else {
                 System.out.println(map.getTerrain(x, y + 1).getName());
             }
         } catch (Exception e) {

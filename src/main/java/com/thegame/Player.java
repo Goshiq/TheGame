@@ -10,6 +10,7 @@ public class Player {
     private double  capacity = 50D;
     private DialogStatement dialogStatement = DialogStatement.MAIN;
     private LinkedList<Item> inventory = new LinkedList<>();
+    private Item currentItem = null;
 
     public Player(String name) {
         this.name = name;
@@ -60,7 +61,12 @@ public class Player {
     }
 
     public void addItem(Item item) {
-        inventory.add(item);
+        if (inventory.stream().filter(el -> el.getName().compareTo(item.getName()) == 0).findAny().isEmpty()) {
+            inventory.add(item);
+            System.out.println("Предмет добавлен в инвентарь. И ведь это всё на себе тащить...");
+        }
+        else
+            System.out.println("Куда тебе ещё-то?");
     }
 
     public void moveUp(int mapHeight) {
@@ -101,5 +107,13 @@ public class Player {
 
     public DialogStatement getDialogStatement() {
         return dialogStatement;
+    }
+
+    public Item getCurrentItem() {
+        return currentItem;
+    }
+
+    public void setCurrentItem(Item item) {
+        currentItem = item;
     }
 }
