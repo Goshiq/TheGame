@@ -41,11 +41,12 @@ public class Item {
 
     public void addRecipe(Item item1, Item item2, Item item3) {
         Map<Item, Item> toAdd = new HashMap<>();
+        Map<Item, Item> toAdd2 = new HashMap<>();
+
         toAdd.put(item1, item2);
         recipes.put(toAdd, item3);
-        toAdd.clear();
-        toAdd.put(item2, item1);
-        recipes.put(toAdd, item3);
+        toAdd2.put(item2, item1);
+        recipes.put(toAdd2, item3);
     }
 
     public static void  showItems(LinkedList<Item> items) {
@@ -91,10 +92,14 @@ public class Item {
     private Item checkItem(Item item) {
         for (Map.Entry entry : recipes.entrySet()) {
             Map<Item, Item> keys = (Map<Item, Item>) entry.getKey();
-            System.out.println();
-//            if (((Item)temp.getKey()).getName().equals(item.getName())) {
-//                return (Item)entry.getKey();
-//            }
+            //if (keys.get(this) != null)
+            //    return keys.get(this);
+            for (Map.Entry entry1 : keys.entrySet()) {
+                Item    tmp = (Item) entry1.getKey();
+                if (tmp.equals(this)) {
+                    return (Item) entry1.getValue();
+                }
+            }
         }
         return null;
     }
