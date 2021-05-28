@@ -40,6 +40,7 @@ public class ProcessTheGame {
                 switch (str.toLowerCase()) {
                     case ("exit") -> {
                         System.out.println("До свидания!");
+                        System.exit(0);
                         return;
                     }
                     case ("w") -> {
@@ -86,7 +87,6 @@ public class ProcessTheGame {
                     }
                 }
             }
-//            GridChecker.checkGrid(player, map.getTerrain(player.getX(), player.getY()));
             System.out.println();
         }
     }
@@ -102,7 +102,11 @@ public class ProcessTheGame {
             } else {
                 System.out.print(items.get(i - 1) + ": ");
                 System.out.println(Item.findDescription(items.get(i - 1)));
-                System.out.println("1: Взять с собой");
+                if (map.getTerrain(player.getX(), player.getY()) == Terrain.LAVA) {
+                    System.out.println("1: Использовать");
+                }
+                else
+                    System.out.println("1: Взять с собой");
                 System.out.println("Любая клавиша: Отмена");
                 System.out.print("Введите действие: ");
                 Scanner scanner = new Scanner(System.in);
@@ -110,13 +114,54 @@ public class ProcessTheGame {
                 switch (str.toLowerCase()) {
                     case ("1") -> {
                         if (map.getTerrain(player.getX(), player.getY()) == Terrain.LAVA) {
-                            System.out.println("Как ты себе это представляешь?");
-                            return;
+                            if (player.getInventory().contains("Кружка со снегом")) {
+                                player.getInventory().remove("Кружка со снегом");
+                                player.addItem("Кружка с кипятком");
+                            }
+                            else if (player.getInventory().contains("Кастрюля снега")) {
+                                player.getInventory().remove("Кастрюля снега");
+                                player.addItem("Кастрюля с кипящей водой");
+                            }
+                            else if (player.getInventory().contains("Кружка воды")) {
+                                player.getInventory().remove("Кружка воды");
+                                player.addItem("Кружка с кипятком");
+                            }
+                            else if (player.getInventory().contains("Кастрюля воды")) {
+                                player.getInventory().remove("Кастрюля воды");
+                                player.addItem("Кастрюля с кипящей водой");
+                            }
+                            else
+                                System.out.println("Тепло");
                         }
-
-                        player.addItem(items.get(i - 1));
-                        if (!Item.getALot(items.get(i - 1)))
-                            items.remove(i - 1);
+                        else if (map.getTerrain(player.getX(), player.getY()) == Terrain.SNOW) {
+                            if (player.getInventory().contains("Кружка")) {
+                                player.getInventory().remove("Кружка");
+                                player.addItem("Кружка со снегом");
+                            }
+                            else if (player.getInventory().contains("Кастрюлька")) {
+                                player.getInventory().remove("Кастрюлька");
+                                player.addItem("Кастрюля снега");
+                            }
+                            else
+                                System.out.println("Ты его в ладошках понесёшь?");
+                        }
+                        else if (map.getTerrain(player.getX(), player.getY()) == Terrain.WATER && items.get(i - 1).equals("Вода")) {
+                            if (player.getInventory().contains("Кружка")) {
+                                player.getInventory().remove("Кружка");
+                                player.addItem("Кружка воды");
+                            }
+                            else if (player.getInventory().contains("Кастрюлька")) {
+                                player.getInventory().remove("Кастрюлька");
+                                player.addItem("Кастрюля воды");
+                            }
+                            else
+                                System.out.println("Ты её в ладошках понесёшь?");
+                        }
+                        else {
+                            player.addItem(items.get(i - 1));
+                            if (!Item.getALot(items.get(i - 1)))
+                                items.remove(i - 1);
+                        }
                     }
                     case ("exit") -> System.exit(0);
                 }
@@ -140,6 +185,11 @@ public class ProcessTheGame {
                     player.getInventory().remove(i - 1);
                 }
                 case ("3") -> {
+                    if (player.getCurrentItem().equals("Рыбный суп")) {
+                        System.out.println("Эх, сейчас бы ещё огурчиков!\nЗдоровье восстановлено");
+                        player.setHealth(100);
+                        return;
+                    }
                     pairs = Item.getPairs(player.getInventory().get(i - 1), player.getInventory());
                     if (pairs != null) {
                         int count = 0;

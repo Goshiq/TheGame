@@ -68,5 +68,8 @@ public class Main {
         //чтобы не было пусто
         map.addItem(0, 0, boots);
         map.addItem(0,0, knife);
+        map.addItem(0, 0, cup);
+        map.addItem(0,0, pot);
+
     }
 }
