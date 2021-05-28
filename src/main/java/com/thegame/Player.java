@@ -7,6 +7,7 @@ public class Player {
     private int x = 0;
     private int y = 0;
     private int health = 100;
+    private int maxHealth = 100;
     private double  capacity = 50D;
     private DialogStatement dialogStatement = DialogStatement.MAIN;
     private LinkedList<String> inventory = new LinkedList<>();
@@ -36,8 +37,16 @@ public class Player {
         this.y = y;
     }
 
-    public int getHealth() {
+    public int  getHealth() {
         return health;
+    }
+
+    public int  getMaxHealth() {
+        return maxHealth;
+    }
+
+    public String   getCurrentHealth() {
+        return Integer.toString(health) + "/" + Integer.toString(maxHealth);
     }
 
     public void setHealth(int health) {

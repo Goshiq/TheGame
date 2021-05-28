@@ -22,12 +22,15 @@ public class Grid {
 
     public LinkedList<String> getItems() {
         switch (terrain) {
-            //cast GRASS -> this.addItem(new Item("Травка", "Не та, о которой ты подумал", true));
+            case GRASS -> this.addItem("Травка");
             case LAVA -> this.addItem("Огонь");
             case SAND -> this.addItem("Песок");
             case SNOW -> this.addItem("Снег");
             case STONE -> this.addItem("Камень");
-            case WATER -> this.addItem("Вода");
+            case WATER -> {
+                this.addItem("Вода");
+                this.addItem("Рыба");
+            }
         }
         return items;
     }

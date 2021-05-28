@@ -70,9 +70,6 @@ public class Item {
         for (int i = 0; i < items.size(); i++) {
             System.out.println(i + 1 + ": " + items.get(i));
         }
-        if (items.size() > 0) {
-            System.out.println();
-        }
     }
 
     public static void addItem(Item item) {

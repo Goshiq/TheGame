@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class ProcessTheGame {
     static LinkedList<String> pairs;
+    private static volatile boolean exitTread = false;
 
     public static void start(MyMap map) {
         Scanner scanner = new Scanner(System.in);
@@ -13,7 +14,11 @@ public class ProcessTheGame {
         str = scanner.next();
         Player player = new Player(str);
         tellTheStory(str);
-        doAction(str, map, player);
+        try {
+            doAction(str, map, player);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void tellTheStory(String str) {
@@ -23,7 +28,7 @@ public class ProcessTheGame {
         showHelp();
     }
 
-    private static void doAction(String str, MyMap map, Player player) {
+    private static void doAction(String str, MyMap map, Player player) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -77,8 +82,12 @@ public class ProcessTheGame {
                     }
                 }
             }
+            GridChecker.checkGrid(player, map.getTerrain(player.getX(), player.getY()));
+            System.out.println();
         }
     }
+
+
 
     private static void checkAction(int i, Player player, MyMap map) {
         LinkedList<String>    items = map.getItems(player.getX(), player.getY());
@@ -159,6 +168,7 @@ public class ProcessTheGame {
     private static void showInfo(Player player) {
         player.setDialogStatement(DialogStatement.INVENTORY);
         System.out.println("Мамкин бродяга: " + player.getName());
+        System.out.println("Здоровье: "+ player.getCurrentHealth());
         if (player.getInventory().size() == 0) {
             System.out.println("Гол как сокол");
         } else {

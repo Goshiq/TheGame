@@ -33,6 +33,7 @@ public class Main {
         Item    fish = new Item("Рыба", "Молчит");
         Item    fishSoup = new Item("Рыбный суп", "Ухой назвать язык не поворачивается");
 
+        Item.addItem(new Item("Травка", "Не та, о которой ты подумал", true));
         Item.addItem(new Item("Огонь", "Пахнет жареным", true));
         Item.addItem(new Item("Песок", "Видимо, бабуля здесь часто бывала", true));
         Item.addItem(new Item("Снег", "Не жёлтый", true));
