@@ -1,4 +1,4 @@
-package main.java.com.thegame;
+package com.thegame;
 
 import java.util.LinkedList;
 import java.util.Scanner;

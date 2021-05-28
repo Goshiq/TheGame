@@ -1,4 +1,4 @@
-package main.java.com.thegame;
+package com.thegame;
 
 public enum DialogStatement {
     INVENTORY,
