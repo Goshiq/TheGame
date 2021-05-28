@@ -45,21 +45,25 @@ public class ProcessTheGame {
                     case ("w") -> {
                         System.out.println("Идём на север");
                         player.moveUp(map.getHeight());
+                        GridChecker.checkGrid(player, map.getTerrain(player.getX(), player.getY()));
                         player.setDialogStatement(DialogStatement.MAIN);
                     }
                     case ("a") -> {
                         System.out.println("Идём на запад");
                         player.moveLeft(map.getWidth());
+                        GridChecker.checkGrid(player, map.getTerrain(player.getX(), player.getY()));
                         player.setDialogStatement(DialogStatement.MAIN);
                     }
                     case ("s") -> {
                         System.out.println("Идём на юг");
                         player.moveDown(map.getHeight());
+                        GridChecker.checkGrid(player, map.getTerrain(player.getX(), player.getY()));
                         player.setDialogStatement(DialogStatement.MAIN);
                     }
                     case ("d") -> {
                         System.out.println("Идём на восток");
                         player.moveRight(map.getWidth());
+                        GridChecker.checkGrid(player, map.getTerrain(player.getX(), player.getY()));
                         player.setDialogStatement(DialogStatement.MAIN);
                     }
                     case ("?") -> {
@@ -82,14 +86,14 @@ public class ProcessTheGame {
                     }
                 }
             }
-            GridChecker.checkGrid(player, map.getTerrain(player.getX(), player.getY()));
+//            GridChecker.checkGrid(player, map.getTerrain(player.getX(), player.getY()));
             System.out.println();
         }
     }
 
 
 
-    private static void checkAction(int i, Player player, MyMap map) {
+    private static void checkAction(int i, Player player, MyMap map) throws Exception {
         LinkedList<String>    items = map.getItems(player.getX(), player.getY());
 
         if (player.getDialogStatement() == DialogStatement.LOOKAROUND) {
@@ -105,6 +109,11 @@ public class ProcessTheGame {
                 String str = scanner.next();
                 switch (str.toLowerCase()) {
                     case ("1") -> {
+                        if (map.getTerrain(player.getX(), player.getY()) == Terrain.LAVA) {
+                            System.out.println("Как ты себе это представляешь?");
+                            return;
+                        }
+
                         player.addItem(items.get(i - 1));
                         if (!Item.getALot(items.get(i - 1)))
                             items.remove(i - 1);
@@ -145,7 +154,6 @@ public class ProcessTheGame {
             }
         } else if (player.getDialogStatement() == DialogStatement.USING) {
             String  result = Item.getResult(player.getCurrentItem(), pairs.get(i - 1));
-            //String    result = player.getResult(player.getCurrentItem(), pairs.get(i - 1));
             player.addItem(result);
             player.getInventory().remove(pairs.get(i - 1));
             player.getInventory().remove(player.getCurrentItem());
