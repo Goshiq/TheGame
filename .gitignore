@@ -1,6 +1,7 @@
 out/
 .idea/
 pom.xml
+target/
 
 *.iml
 
